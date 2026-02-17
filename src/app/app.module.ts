@@ -3,13 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClient, HttpClientModule} from '@angular/common/http'
+import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { CustomTranslateLoader, TranslationTree } from './translate-custom-loader';
 import { TranslationService } from './services/translation.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MemoryCacheService } from './services/memory-cache.service';
 
-export function createTranslateLoader(http: HttpClient, cache: MemoryCacheService<TranslationTree>) {
+export function createTranslateLoader(http: HttpClient, cache: MemoryCacheService<TranslationTree | string>) {
   return new CustomTranslateLoader(http, cache);
 }
 
@@ -34,7 +34,7 @@ export function initializeApp(versionService: TranslationService) {
     })
   ],
   providers: [
-     TranslationService,
+    TranslationService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
