@@ -11,57 +11,49 @@ import { MemoryCacheService } from './memory-cache.service';
 })
 export class TranslationService {
 
-  private baseUrl = 'https://shimmering-froyo-ffe775.netlify.app';
-  //private baseUrl = "./translations";
-  
+  private baseUrl = './assets/i18n';
+  //private baseUrl = "https://shimmering-froyo-ffe775.netlify.app";
+
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
     private memoryCache: MemoryCacheService<string>
-  ) {}
+  ) { }
 
   async initVersionCheck(): Promise<boolean> {
     try {
-      const serverVersions = await lastValueFrom(
-        this.http.get<Record<string, string>>(`${this.baseUrl}/versions.json`)
+      const config = await lastValueFrom(
+        this.http.get<{ version: string, active_languages: string[] }>(`${this.baseUrl}/config.json`)
       );
-  
-      let hasNewVersion = false;
-  
+
+      const serverVersion = config.version;
       const currentLang = this.translate.currentLang || this.translate.defaultLang;
-  
-      for (const lang of Object.keys(serverVersions)) {
-  
-        const localV = this.memoryCache.get(`translations_version_${lang}`);
-        const serverV = serverVersions[lang]; 
-  
-        if (localV !== serverV) {
-  
-          hasNewVersion = true;
-  
-          // Invalidation cache mémoire
-          this.memoryCache.clear(`translations_${lang}`);
-  
-          // Mise à jour version en mémoire
-          this.memoryCache.set(`translations_version_${lang}`, serverV);
-  
-          // Reload seulement si la langue active a changé
-          if (currentLang === lang) {
-            await lastValueFrom(this.translate.reloadLang(lang));
-            //await lastValueFrom(this.translate.use(lang));
-          }
+
+      // Store version in cache for the loader to use
+      this.memoryCache.set('app_version', serverVersion);
+
+      // Optional: Check if version changed for active language to trigger reload
+      const localVersion = this.memoryCache.get(`translations_version_${currentLang}`);
+
+      if (localVersion !== serverVersion) {
+        this.memoryCache.clear(`translations_${currentLang}`);
+        this.memoryCache.set(`translations_version_${currentLang}`, serverVersion);
+
+        if (currentLang) {
+          await lastValueFrom(this.translate.reloadLang(currentLang));
         }
+        return true;
       }
-  
-      return hasNewVersion;
-  
+
+      return false;
+
     } catch (error) {
       console.error('Impossible de vérifier les versions', error);
       return false;
     }
   }
-  
-  
-  
+
+
+
 
 }
