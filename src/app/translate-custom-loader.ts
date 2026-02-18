@@ -24,8 +24,8 @@ export class CustomTranslateLoader implements TranslateLoader {
 
   getTranslation(lang: string): Observable<TranslationTree> {
 
-    // Retrieve the version stored by TranslationService
-    const version = this.cache.get('app_version') as string;
+    // Retrieve the version for the specific language
+    const version = this.cache.get(`version_${lang}`) as string;
     const key = `translations_${lang}_v${version}`;
 
     const cached = this.cache.get(key) as TranslationTree;

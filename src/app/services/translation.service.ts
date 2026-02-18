@@ -23,29 +23,35 @@ export class TranslationService {
   async initVersionCheck(): Promise<boolean> {
     try {
       const config = await lastValueFrom(
-        this.http.get<{ version: string, active_languages: string[] }>(`${this.baseUrl}/config.json`)
+        this.http.get<{ versions: Record<string, string>, active_languages: string[] }>(`${this.baseUrl}/config.json`)
       );
 
-      const serverVersion = config.version;
-      const currentLang = this.translate.currentLang || this.translate.defaultLang;
+      let hasNewVersion = false;
+      const serverVersions = config.versions;
 
-      // Store version in cache for the loader to use
-      this.memoryCache.set('app_version', serverVersion);
+      // Iterate through all languages in the config
+      for (const lang of Object.keys(serverVersions)) {
 
-      // Optional: Check if version changed for active language to trigger reload
-      const localVersion = this.memoryCache.get(`translations_version_${currentLang}`);
+        const serverVersion = serverVersions[lang];
+        const cacheKey = `version_${lang}`;
+        const localVersion = this.memoryCache.get(cacheKey);
 
-      if (localVersion !== serverVersion) {
-        this.memoryCache.clear(`translations_${currentLang}`);
-        this.memoryCache.set(`translations_version_${currentLang}`, serverVersion);
+        // Always update the cache with the server version for this language
+        this.memoryCache.set(cacheKey, serverVersion);
 
-        if (currentLang) {
-          await lastValueFrom(this.translate.reloadLang(currentLang));
+        if (localVersion !== serverVersion) {
+          hasNewVersion = true;
+          // Clear cached translations for this language
+          this.memoryCache.clear(`translations_${lang}_v${localVersion}`);
+
+          // If this is the current language, reload it
+          if (this.translate.currentLang === lang) {
+            await lastValueFrom(this.translate.reloadLang(lang));
+          }
         }
-        return true;
       }
 
-      return false;
+      return hasNewVersion;
 
     } catch (error) {
       console.error('Impossible de vérifier les versions', error);
