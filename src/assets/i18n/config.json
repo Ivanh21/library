@@ -1,8 +1,12 @@
 {
-    "version": "1",
     "active_languages": [
         "fr",
         "en",
         "es"
-    ]
+    ],
+    "versions": {
+        "fr": "2",
+        "en": "1",
+        "es": "1"
+    }
 }
