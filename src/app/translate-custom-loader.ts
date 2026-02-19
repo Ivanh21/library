@@ -16,6 +16,7 @@ export type TranslationTree = {
 export class CustomTranslateLoader implements TranslateLoader {
 
   private baseUrl = "./assets/i18n";
+  //private baseUrl = "https://shimmering-froyo-ffe775.netlify.app";
 
   constructor(
     private http: HttpClient,
@@ -27,6 +28,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     // Retrieve the version for the specific language
     const version = this.cache.get(`version_${lang}`) as string;
     const key = `translations_${lang}_v${version}`;
+    //console.log(`Loading translations for ${lang} with version ${key}`);
 
     const cached = this.cache.get(key) as TranslationTree;
     if (cached) {
@@ -35,7 +37,7 @@ export class CustomTranslateLoader implements TranslateLoader {
 
     const url = version
       ? `${this.baseUrl}/${lang}.v${version}.json`
-      : `${this.baseUrl}/${lang}.json`; // Fallback if no version found
+      : `${this.baseUrl}/${lang}.json`;
 
     return this.http
       .get<TranslationTree>(url)

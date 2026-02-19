@@ -1,0 +1,29 @@
+<div class="w-full flex justify-center py-20">
+    <div class="bg-white w-[385px] flex flex-col space-y-8 p-4 rounded-lg shadow-lg">
+        <div class="border-b border-[#ccc] pb-2">
+            <h1 class="font-bold text-xl">{{'LOGIN.TITLE' | translate}}</h1>
+        </div>
+
+        <div>
+            <form class="flex flex-col space-y-4">
+                <div class="flex flex-col space-y-2">
+                    <Label class="font-semibold text-md">{{'LOGIN.FORM.EMAIL' | translate}}</Label>
+                    <input type="email" class="border border-[#ccc] p-2 rounded-lg text-sm" name="" id="" [placeholder]="'LOGIN.FORM.PLACEHOLDER.EMAIL' | translate ">
+                </div>
+
+                <div class="flex flex-col space-y-2">
+                    <Label class="font-semibold text-md">{{'LOGIN.FORM.PASSWORD' | translate}}</Label>
+                    <input type="password" class="border border-[#ccc] p-2 rounded-lg text-sm" name="" id="">
+                </div>
+
+                <div class="flex justify-end">
+                    <a routerLink="/register" class="text-xs text-blue-500">{{'LOGIN.FORM.REGISTER' | translate}}</a>
+                </div>
+
+                <div class="flex justify-center">
+                    <button class="w-full bg-blue-500 p-2 rounded-lg text-white font-bold">{{'LOGIN.FORM.BUTTON' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

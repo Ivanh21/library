@@ -1,0 +1,31 @@
+{
+    "LANG": {
+        "EN": "Anglais",
+        "FR": "Français",
+        "AR": "Arabe"
+    },
+    "LOGIN":{
+        "TITLE":"Connectez-vous",
+        "FORM": {
+            "EMAIL": "Email",
+            "PLACEHOLDER": {
+                "EMAIL": "Saisissez une adresse email correcte" 
+            },
+            "PASSWORD": "Mot de passe",
+            "REGISTER": "Pas de compte ? Inscrivez-vous",
+            "BUTTON": "Se connecter"
+        }
+    },
+
+    "REGISTER":{
+        "TITLE": "Inscrivez-vous",
+        "FORM": {
+            "USERNAME": "Nom d'utilisateur",
+            "PLACEHOLDER": {
+                "USERNAME": "Saisissez un nom d'utilisateur valide"
+            },
+            "LOGIN": "Vous avez un compte ? Connectez-vous",
+            "BUTTON" : "S'inscrire"
+        }
+    } 
+}

@@ -22,12 +22,11 @@ export class TranslationService {
 
   async initVersionCheck(): Promise<boolean> {
     try {
-      const config = await lastValueFrom(
-        this.http.get<{ versions: Record<string, string>, active_languages: string[] }>(`${this.baseUrl}/config.json`)
+      const serverVersions = await lastValueFrom(
+        this.http.get<Record<string, string>>(`${this.baseUrl}/config.json`)
       );
 
       let hasNewVersion = false;
-      const serverVersions = config.versions;
 
       // Iterate through all languages in the config
       for (const lang of Object.keys(serverVersions)) {

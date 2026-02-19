@@ -1,0 +1,30 @@
+{
+    "LANG": {
+        "EN": "English",
+        "FR": "French",
+        "AR": "Arabic"
+    },
+    "LOGIN": {
+        "TITLE": "Sign In",
+        "FORM": {
+            "EMAIL": "Email",
+            "PLACEHOLDER": {
+                "EMAIL": "Enter a valid email address." 
+            },
+            "PASSWORD": "Password",
+            "REGISTER": "No account? Sign up",
+            "BUTTON": "Log in"
+        }
+    },
+    "REGISTER":{
+    "TITLE": "Sign Up",
+    "FORM": {
+        "USERNAME": "Username",
+        "PLACEHOLDER": {
+            "USERNAME": "Enter a valid username"
+        },
+        "LOGIN": "Do you have an account? Log in",
+        "BUTTON" : "Register"
+    }
+} 
+}

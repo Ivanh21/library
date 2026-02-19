@@ -1,0 +1,35 @@
+<div class="w-full flex justify-center py-20">
+    <div class="bg-white w-[385px] flex flex-col space-y-8 p-4 rounded-lg shadow-lg">
+        <div class="border-b border-[#ccc] pb-2">
+            <h1 class="font-bold text-xl">{{'REGISTER.TITLE' | translate}}</h1>
+        </div>
+
+        <div>
+            <form class="flex flex-col space-y-4">
+
+                <div class="flex flex-col space-y-2">
+                    <Label class="font-semibold text-md">{{'REGISTER.FORM.USERNAME' | translate}}</Label>
+                    <input type="text" class="border border-[#ccc] p-2 rounded-lg text-sm" name="" id="" [placeholder]="'REGISTER.FORM.PLACEHOLDER.USERNAME' | translate ">
+                </div>
+
+                <div class="flex flex-col space-y-2">
+                    <Label class="font-semibold text-md">{{'LOGIN.FORM.EMAIL' | translate}}</Label>
+                    <input type="text" class="border border-[#ccc] p-2 rounded-lg text-sm" name="" id="" [placeholder]="'LOGIN.FORM.PLACEHOLDER.EMAIL' | translate ">
+                </div>
+
+                <div class="flex flex-col space-y-2">
+                    <Label class="font-semibold text-md">{{'LOGIN.FORM.PASSWORD' | translate}}</Label>
+                    <input type="password" class="border border-[#ccc] p-2 rounded-lg text-sm" name="" id="">
+                </div>
+
+                <div class="flex justify-end">
+                    <a href="/" class="text-xs text-blue-500">{{'REGISTER.FORM.LOGIN' | translate}}</a>
+                </div>
+
+                <div class="flex justify-center">
+                    <button class="w-full bg-blue-500 p-2 rounded-lg text-white font-bold">{{'REGISTER.FORM.BUTTON' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

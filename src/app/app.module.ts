@@ -8,6 +8,8 @@ import { CustomTranslateLoader, TranslationTree } from './translate-custom-loade
 import { TranslationService } from './services/translation.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MemoryCacheService } from './services/memory-cache.service';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 export function createTranslateLoader(http: HttpClient, cache: MemoryCacheService<TranslationTree | string>) {
   return new CustomTranslateLoader(http, cache);
@@ -19,7 +21,9 @@ export function initializeApp(versionService: TranslationService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

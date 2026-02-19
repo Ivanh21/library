@@ -17,48 +17,6 @@ export class WordingLibraryService {
     @Inject(WORDING_LIBRARY_CONFIG) private config: WordingLibraryConfig
   ) {}
 
-  // async initVersionCheck(): Promise<boolean> {
-  //     const baseUrl = this.config.baseUrl;
-  //     try {
-    
-  //       const serverVersions = await lastValueFrom(
-  //         this.http.get<Record<string, string>>(`${baseUrl}/${this.config.fileConfigVersion}.json`)
-  //       );
-    
-  //       let hasNewVersion = false;
-    
-  //       for (const lang of Object.keys(serverVersions)) {
-    
-  //         const localV = localStorage.getItem(`translations_version_${lang}`);
-  //         const serverV = serverVersions[lang];
-    
-  //         console.log(`Lang=${lang} | local=${localV} | server=${serverV}`);
-    
-  //         if (localV !== serverV) {
-    
-  //           hasNewVersion = true;
-  
-  //           localStorage.removeItem(`translations_${lang}`);
-  //           localStorage.setItem(`translations_version_${lang}`, serverV);
-    
-  //           await lastValueFrom(this.translate.reloadLang(lang));
-    
-  //           const current = this.translate.currentLang || this.translate.defaultLang;
-    
-  //           if (current === lang) {
-  //             await lastValueFrom(this.translate.use(lang));
-  //           }
-  //         }
-  //       }
-    
-  //       return hasNewVersion;
-    
-  //     } catch (error) {
-  //       console.error('Impossible de vérifier les versions', error);
-  //       return false;
-  //     }
-  //   }
-
     async initVersionCheck(): Promise<boolean> {
       
         try {
@@ -68,29 +26,29 @@ export class WordingLibraryService {
       
           let hasNewVersion = false;
       
-          const currentLang = this.translate.currentLang || this.translate.defaultLang;
+          //const currentLang = this.translate.currentLang || this.translate.defaultLang;
       
           for (const lang of Object.keys(serverVersions)) {
       
-            const localV = this.memoryCache.get(`translations_version_${lang}`);
-            const serverV = serverVersions[lang];
-      
-            if (localV !== serverV) {
-      
-              hasNewVersion = true;
-      
-              // Invalidation cache mémoire
-              this.memoryCache.clear(`translations_${lang}`);
-      
-              // Mise à jour version en mémoire
-              this.memoryCache.set(`translations_version_${lang}`, serverV);
-      
-              // Reload seulement si la langue active a changé
-              if (currentLang === lang) {
-                await lastValueFrom(this.translate.reloadLang(lang));
-                //await lastValueFrom(this.translate.use(lang));
-              }
-            }
+            const serverVersion = serverVersions[lang];
+            const cacheKey = `version_${lang}`;
+            const localVersion = this.memoryCache.get(cacheKey);
+
+            // Always update the cache with the server version for this language
+            this.memoryCache.set(cacheKey, serverVersion);
+
+        if (localVersion !== serverVersion) {
+          hasNewVersion = true;
+          // Clear cached translations for this language
+          this.memoryCache.clear(`translations_${lang}_v${localVersion}`);
+
+          const defaultLang = this.translate.getDefaultLang() || 'fr';
+
+          // If this is the current language, reload it
+          if (this.translate.currentLang === lang) {
+            await lastValueFrom(this.translate.reloadLang(lang));
+          }
+        }
           }
       
           return hasNewVersion;
